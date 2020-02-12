@@ -1,0 +1,14 @@
+
+squid:S001172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Ê›H§RMINORZ
+CODE_SMELL
+„squid:S001176"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(†Ä§ªıÿÿÿÿH¨RMINORZ
+CODE_SMELL
+\squid:EmptyStatementUsageCheck?"Remove this empty statement.(÷ÜôH©RMINORZ
+CODE_SMELL
+j
+squid:S106x"9Replace this use of System.out or System.err by a logger.(çôîÚüÿÿÿÿHªRMAJORZ
+CODE_SMELL
+}squid:CommentedOutCodeLineE"<This block of commented-out lines of code should be removed.(¤‚±âıÿÿÿÿH«RMAJORZ
+CODE_SMELL
+xsquid:CommentedOutCodeLine\"<This block of commented-out lines of code should be removed.(ëêÕÍH¬RMAJORZ
+CODE_SMELL
