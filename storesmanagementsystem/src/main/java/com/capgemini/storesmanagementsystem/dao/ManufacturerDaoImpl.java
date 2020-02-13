@@ -17,22 +17,19 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 	ResultSet rs = null;
 	Statement stmt = null;
 
-	
-
 	public boolean addDealer(UserDetailsInfo dealer) {
 		boolean isAdded = false;
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
+		String qry = " insert into  userdetailinfo  values (?,?,?,?,?,?)";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = " insert into  userdetailinfo  values (?,?,?,?,?,?)";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, dealer.getUserId());
-			pstmt.setString(2, dealer.getEmail());
-			pstmt.setString(3, dealer.getAddress());
+			pstmt.setString(2, dealer.getUserName());
+			pstmt.setString(3, dealer.getEmail());
 			pstmt.setString(4, dealer.getPassword());
-			pstmt.setString(5, dealer.getUserRole());
-			pstmt.setString(6, dealer.getUserName());
+			pstmt.setString(5, dealer.getAddress());
+			pstmt.setString(6, dealer.getUserRole());
 			int r = pstmt.executeUpdate();
 			System.out.println(r);
 
@@ -48,21 +45,19 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 		return isAdded;
 	}
 
-	public boolean modifyDealer(String userId,UserDetailsInfo user) {
-		boolean isModified=false;
-		try {
+	public boolean modifyDealer(String userId, UserDetailsInfo user) {
+		boolean isModified = false;
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
+		String qry = "update userdetailinfo set userName=?,address=?,password=? where userId='" + userId + "' ";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry =  "update userdetailinfo set userName=?,address=?,password=? where userId='" + userId + "' ";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, user.getUserName());
 			pstmt.setString(2, user.getEmail());
 			pstmt.setString(3, user.getPassword());
-			int n=pstmt.executeUpdate();
-			if(n!=0)
-				isModified=true;
+			int n = pstmt.executeUpdate();
+			if (n != 0)
+				isModified = true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,19 +67,18 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 	}
 
 	public boolean removeDealer(String dealerId) {
-          boolean  isRemoved=false;
-		try {
+		boolean isRemoved = false;
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "delete from userdetailinfo where userId=?";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = "delete from userdetailinfo where userId=?";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, dealerId);
 			int n = pstmt.executeUpdate();
-			
-			if(n!=0)
-				isRemoved=true;
-			
+
+			if (n != 0)
+				isRemoved = true;
+
 		} catch (Exception e) {
 
 			e.getMessage();
@@ -94,14 +88,13 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
 	public List<String> viewAllDealers(String role) {
 		List<String> manufactures = new ArrayList<>();
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-			String qry = "select * from userdetailinfo where role='" + role + "' ";
-			pstmt = con.prepareStatement(qry);
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select * from userdetailinfo where userRole='" + role + "' ";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
 
-			ResultSet rs = pstmt.executeQuery();
+				ResultSet rs = pstmt.executeQuery(qry);) {
+			Class.forName("com.mysql.jdbc.Driver");
 
 			while (rs.next()) {
 				manufactures.add(rs.getString("userName"));
@@ -118,12 +111,11 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
 	public boolean addProduct(ProductDetailsInfo product) {
 		boolean isAdded = false;
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = " insert into  productdetailsinfo  values (?,?,?,?,?)";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = " insert into  productdetailsinfo  values (?,?,?,?,?)";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setInt(1, product.getProduct());
 			pstmt.setString(2, product.getProductName());
 			pstmt.setDouble(3, product.getPrice());
@@ -146,21 +138,19 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
 	}
 
-	public boolean modifyProduct(int productId,ProductDetailsInfo product) {
-		boolean isUpdate=false;
-		try {
+	public boolean modifyProduct(int productId, ProductDetailsInfo product) {
+		boolean isUpdate = false;
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "update productdetailsinfo set price=?,warranty=? where productId='" + productId + "' ";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry =  "update productdetailsinfo set price=?,warranty=? where productId='" + productId + "' ";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setDouble(1, product.getPrice());
 			pstmt.setString(2, product.getWarranty());
-			
-			int n=pstmt.executeUpdate();
-			if(n!=0)
-				isUpdate=true;
+
+			int n = pstmt.executeUpdate();
+			if (n != 0)
+				isUpdate = true;
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -171,37 +161,33 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 	}
 
 	public boolean removeProduct(Integer productId) {
-		boolean isDeleted=false;
-		try {
+		boolean isDeleted = false;
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "delete from productdetailsinfo where productId=?";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = "delete from productdetailsinfo where productId=?";
-			pstmt=con.prepareStatement(qry);
 			pstmt.setInt(1, productId);
-			int n=pstmt.executeUpdate();
-			if(n!=0)
-				isDeleted=true;
+			int n = pstmt.executeUpdate();
+			if (n != 0)
+				isDeleted = true;
 		} catch (Exception e) {
 
 			e.getMessage();
 		}
-		return isDeleted; 
+		return isDeleted;
 
 	}
 
 	public List<String> viewAllProducts() {
 		List<String> productlist = new ArrayList<>();
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select * from productdetailsinfo";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
 
-		try {
+				ResultSet rs = pstmt.executeQuery(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry = "select * from productdetailsinfo";
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(qry);
 
 			while (rs.next()) {
 				productlist.add(rs.getString("productName"));
@@ -216,20 +202,18 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 
 	public List<String> viewAllOrders() {
 		List<String> productlist = new ArrayList<>();
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select * from orderdetailsinfo";
 
-		try {
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
+
+				ResultSet rs = pstmt.executeQuery(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry = "select * from orderdetailsinfo";
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(qry);
 
 			while (rs.next()) {
 				productlist.add(rs.getString("userId"));
-				productlist.add(rs.getString("referenceId"));
+				productlist.add(rs.getString("userName"));
 				productlist.add(rs.getString("address"));
 
 			}
@@ -244,16 +228,14 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 	public List<String> viewStore() {
 
 		List<String> productlist = new ArrayList<>();
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select * from storesinfo";
 
-		try {
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
+
+				ResultSet rs = pstmt.executeQuery(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry = "select * from storesinfo";
-			Statement stmt = con.createStatement();
-
-			ResultSet rs = stmt.executeQuery(qry);
 
 			while (rs.next()) {
 				productlist.add(rs.getString("storesId"));
@@ -270,10 +252,3 @@ public class ManufacturerDaoImpl implements ManufacturerDao {
 	}
 
 }
-
-
-
-
-
-
-

@@ -1,6 +1,5 @@
 package com.capgemini.storesmanagementsystem.validation;
 
-import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,33 +7,9 @@ import java.util.regex.Pattern;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import com.capgemini.storesmanagementsystem.dao.AdminDaoImpl;
-
 public class Validation {
 	static Logger log = LogManager.getLogger("store");
 
-	public static boolean passwordValidation(String userName, String password) {
-
-		AdminDaoImpl dao = new AdminDaoImpl();
-		List<String> login = null;
-		try {
-			login = dao.loginAdmin(userName, password);
-		} catch (Exception e) {
-
-			//throw new SchemaManagementException("login Failed");
-		}
-		String adminName = login.get(0);
-		String password1 = login.get(1);
-
-		if (userName.equals(adminName)) {
-			if (password.equals(password1)) {
-				return true;
-			}
-		}
-
-		return false;
-
-	}
 
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
 			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -91,6 +66,5 @@ public class Validation {
 		return false;
 	}
 
-
-
+	
 }

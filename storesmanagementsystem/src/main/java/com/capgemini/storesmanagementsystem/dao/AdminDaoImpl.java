@@ -9,31 +9,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.capgemini.storesmanagementsystem.dto.UserDetailsInfo;
-import com.capgemini.storesmanagementsystem.exception.SchemaManagementException;
+import com.capgemini.storesmanagementsystem.exception.InputMissMatchException;
 
 public class AdminDaoImpl implements AdminDao {
-	Connection con = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
 	Statement stmt = null;
-	
-	public boolean loginAdmin(String name,String password,String id) {
-		boolean isCheck=false;
 
-		try {
+	public boolean loginAdmin(String name, String password, String id) {
+		boolean isCheck = false;
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select userName,password from userDetailsInfo where userId ='" + id + "'";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
+				
+				ResultSet rs = stmt.executeQuery(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=hr";
-			con = DriverManager.getConnection(dburl);
-			String qry = "select userName,password from userDetailsInfo where userId ='" + id + "'";
-			pstmt = con.prepareStatement(qry);
-			rs = pstmt.executeQuery();
-            pstmt.setString(1,id);
+
+			pstmt.setString(1, id);
 			while (rs.next()) {
-				 if(rs.getString("userName").equals(name)&& rs.getString("password").equals(password)) {
-					 isCheck=true;
-				 }else {
+				if (rs.getString("userName").equals(name) && rs.getString("password").equals(password)) {
+					isCheck = true;
+				} else {
 					// log.info("wrong credentials");
-				 }
+				}
 			}
 		} catch (Exception e) {
 			e.getMessage();
@@ -42,24 +39,20 @@ public class AdminDaoImpl implements AdminDao {
 		return isCheck;
 	}
 
-
-
 	public boolean addManufacturer(UserDetailsInfo user) {
 		boolean isAdded = false;
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = " insert into userdetailinfo   values (?,?,?,?,?,?)";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = " insert into userdetailinfo   values (?,?,?,?,?,?)";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, user.getUserId());
-			pstmt.setString(2,user.getEmail());
-			pstmt.setString(3,user.getAddress());
+			pstmt.setString(2, user.getUserName());
+			pstmt.setString(3, user.getEmail());
 			pstmt.setString(4, user.getPassword());
-			pstmt.setString(5, user.getUserRole());
-			pstmt.setString(6, user.getUserName());
+			pstmt.setString(5, user.getAddress());
+			pstmt.setString(6, user.getUserRole());
 			int r = pstmt.executeUpdate();
-			
 
 			if (r != 0) {
 				isAdded = true;
@@ -73,22 +66,20 @@ public class AdminDaoImpl implements AdminDao {
 		return isAdded;
 	}
 
-	public boolean updateManufacturer(String userId,UserDetailsInfo user) {
+	public boolean updateManufacturer(String userId, UserDetailsInfo user) {
 		boolean isUpdated = false;
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "update userdetailinfo set userName=?,email=?,password=? where userId='" + userId + "' ";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-
-			String qry = "update userdetailinfo set userName=?,email=?,password=? where userId='" + userId + "' ";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, user.getUserName());
 			pstmt.setString(2, user.getEmail());
 			pstmt.setString(3, user.getPassword());
-			 int n=pstmt.executeUpdate();
-			 if (n != 0) {
-					isUpdated = true;
-				}
+			int n = pstmt.executeUpdate();
+			if (n != 0) {
+				isUpdated = true;
+			}
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -100,15 +91,14 @@ public class AdminDaoImpl implements AdminDao {
 
 	public boolean deleteManufacturer(String userId) {
 		boolean isDeleted = false;
-		
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "delete from userdetailinfo where userId=?";
+
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			con = DriverManager.getConnection(dburl);
-			String qry = "delete from userdetailinfo where userId=?";
-			pstmt = con.prepareStatement(qry);
 			pstmt.setString(1, userId);
-			int r=pstmt.executeUpdate();
+			int r = pstmt.executeUpdate();
 			if (r != 0) {
 				isDeleted = true;
 			}
@@ -122,21 +112,21 @@ public class AdminDaoImpl implements AdminDao {
 	public List<String> viewAllManufacturer() {
 
 		List<String> manufactures = new ArrayList<>();
-		try {
+		String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false";
+		String qry = "select * from userdetailinfo ";
+		try (Connection con = DriverManager.getConnection(dburl);
+				PreparedStatement pstmt = con.prepareStatement(qry);
+
+				ResultSet rs = pstmt.executeQuery(qry);) {
 			Class.forName("com.mysql.jdbc.Driver");
-			String dburl = "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger";
-			Connection con = DriverManager.getConnection(dburl);
-			String qry = "select * from userdetailinfo ";
-			pstmt=con.prepareStatement(qry);
-
-			ResultSet rs = pstmt.executeQuery();
-
 			while (rs.next()) {
-				manufactures.add(rs.getString("userName"));
 				manufactures.add(rs.getString("userId"));
+				manufactures.add(rs.getString("userName"));
 				manufactures.add(rs.getString("email"));
+				manufactures.add(rs.getString("password"));
 				manufactures.add(rs.getString("address"));
-				
+				manufactures.add(rs.getString("userRole"));
+
 			}
 		} catch (Exception e) {
 
@@ -147,5 +137,4 @@ public class AdminDaoImpl implements AdminDao {
 
 	}
 
-
- }
+}

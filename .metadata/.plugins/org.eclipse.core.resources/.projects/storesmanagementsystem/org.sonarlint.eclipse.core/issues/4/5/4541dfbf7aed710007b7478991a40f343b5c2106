@@ -1,39 +1,30 @@
 
-ˆsquid:S2068S"V'password' detected in this expression, review this potentially hard-coded credential.(øùÁÃH¿RBLOCKERZVULNERABILITY
-ˆsquid:S2068j"V'password' detected in this expression, review this potentially hard-coded credential.(¨èú§HÂRBLOCKERZVULNERABILITY
-_squid:S4925O"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿH¼RMAJORZ
+‹squid:S1192"VDefine a constant instead of duplicating this literal "com.mysql.jdbc.Driver" 5 times.(¹µÖÁüÿÿÿÿHûRCRITICALZ
 CODE_SMELL
-_squid:S4925~"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHÃRMAJORZ
+Xsquid:S1148V"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHĞRMINORZVULNERABILITY
+Ôsquid:S1192"—Define a constant instead of duplicating this literal "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger&useSSL=false" 5 times.(»ÉáŸÿÿÿÿÿ8úÙêƒ.HRCRITICALZ
 CODE_SMELL
-ˆsquid:S2068"V'password' detected in this expression, review this potentially hard-coded credential.(¨èú§HÄRBLOCKERZVULNERABILITY
-‹squid:S1192"VDefine a constant instead of duplicating this literal "com.mysql.jdbc.Driver" 5 times.(¹µÖÁüÿÿÿÿH¯RCRITICALZ
+}squid:CommentedOutCodeLine "<This block of commented-out lines of code should be removed.(¯ÚºØúÿÿÿÿH×RMAJORZ
 CODE_SMELL
-squid:UselessImportCheck"eRemove this unused import 'com.capgemini.storesmanagementsystem.exception.SchemaManagementException'.(Ğı•gH´RMINORZ
+_squid:S49250"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHåRMAJORZ
 CODE_SMELL
-osquid:HiddenFieldCheck€"7Rename "con" which hides the field declared at line 15.(±¬®yHÅRMAJORZ
+Xsquid:S1148?"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHÙRMINORZVULNERABILITY
+_squid:S4925c"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHˆRMAJORZ
 CODE_SMELL
-osquid:S2095Q"HUse try-with-resources or close this "Connection" in a "finally" clause.(±¬®yH³RBLOCKERZBUG
-_squid:S4925"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿH·RMAJORZ
+_squid:S4925K"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHRMAJORZ
 CODE_SMELL
-ˆsquid:S20683"V'password' detected in this expression, review this potentially hard-coded credential.(¨èú§H»RBLOCKERZVULNERABILITY
-Xsquid:S1148F"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿHµRMINORZVULNERABILITY
-Ssquid:S2695"+This "PreparedStatement" has no parameters.(ÀõãôH¹RBLOCKERZBUG
-»squid:S11923"ŠDefine a constant instead of duplicating this literal "jdbc:mysql://localhost:3306/stores_management_db?user=root&password=tiger" 4 times.(¨èú§H°RCRITICALZ
+_squid:S4925y"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿH‡RMAJORZ
 CODE_SMELL
-nsquid:HiddenFieldCheckQ"7Rename "con" which hides the field declared at line 15.(±¬®yH¾RMAJORZ
+_squid:S4925"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿH†RMAJORZ
 CODE_SMELL
-_squid:S4925i"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHÁRMAJORZ
+csquid:S1135U"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHİRINFOZ
 CODE_SMELL
-Xsquid:S1148_"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿH¶RMINORZVULNERABILITY
-_squid:S49252"-Remove this "Class.forName()", it is useless.(¹µÖÁüÿÿÿÿHºRMAJORZ
+squid:S2068"V'password' detected in this expression, review this potentially hard-coded credential.(»ÉáŸÿÿÿÿÿHşRBLOCKERZVULNERABILITY
+squid:S2068G"V'password' detected in this expression, review this potentially hard-coded credential.(»ÉáŸÿÿÿÿÿHRBLOCKERZVULNERABILITY
+squid:S2068^"V'password' detected in this expression, review this potentially hard-coded credential.(»ÉáŸÿÿÿÿÿHŠRBLOCKERZVULNERABILITY
+ˆsquid:S2068H"V'password' detected in this expression, review this potentially hard-coded credential.(øùÁÃH‰RBLOCKERZVULNERABILITY
+squid:S2068s"V'password' detected in this expression, review this potentially hard-coded credential.(»ÉáŸÿÿÿÿÿHƒRBLOCKERZVULNERABILITY
+Ssquid:S2695"+This "PreparedStatement" has no parameters.(ÀõãôHÖRBLOCKERZBUG
+squid:S2068,"V'password' detected in this expression, review this potentially hard-coded credential.(»ÉáŸÿÿÿÿÿH‹RBLOCKERZVULNERABILITY
+©squid:UselessImportCheck"cRemove this unused import 'com.capgemini.storesmanagementsystem.exception.InputMissMatchException'.(¢üğ£üÿÿÿÿ8›á’ñƒ.HËRMINORZ
 CODE_SMELL
-osquid:HiddenFieldCheck„"6Rename "rs" which hides the field declared at line 17.(¶ë‰ŞHÆRMAJORZ
-CODE_SMELL
-psquid:S2095„"GUse try-with-resources or close this "ResultSet" in a "finally" clause.(¶ë‰ŞH²RBLOCKERZBUG
-ˆsquid:S2068"V'password' detected in this expression, review this potentially hard-coded credential.(Ù´èşH¸RBLOCKERZVULNERABILITY
-ˆsquid:S2068P"V'password' detected in this expression, review this potentially hard-coded credential.(¨èú§H½RBLOCKERZVULNERABILITY
-csquid:S1135^"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿHÀRINFOZ
-CODE_SMELL
-}squid:CommentedOutCodeLine#"<This block of commented-out lines of code should be removed.(¯ÚºØúÿÿÿÿHÇRMAJORZ
-CODE_SMELL
-psquid:S2095€"HUse try-with-resources or close this "Connection" in a "finally" clause.(±¬®yH±RBLOCKERZBUG

@@ -5,17 +5,20 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.capgemini.storesmanagementsystem.dao.ManufacturerDao;
+import com.capgemini.storesmanagementsystem.dao.ManufacturerDaoImpl;
 import com.capgemini.storesmanagementsystem.dto.ProductDetailsInfo;
 import com.capgemini.storesmanagementsystem.dto.UserDetailsInfo;
 import com.capgemini.storesmanagementsystem.service.ManufacturerService;
 import com.capgemini.storesmanagementsystem.service.ManufacturerServiceImpl;
+import com.capgemini.storesmanagementsystem.validation.Validation;
 
 public class ManufacturerController {
 	ManufacturerService manService = new ManufacturerServiceImpl();
+
 	Logger log = Logger.getLogger("store");
 	Scanner scan = new Scanner(System.in);
-	ManufacturerServiceImpl dao = new ManufacturerServiceImpl();
+	ManufacturerDaoImpl dao = new ManufacturerDaoImpl();
+	Validation validate = new Validation();
 
 	void manufactureTask() {
 
@@ -36,34 +39,76 @@ public class ManufacturerController {
 			log.info("************************");
 			log.info("Enter Your Choice");
 			log.info("************************");
+			scan = validate.integerValidation();
 			choice = scan.nextInt();
 			switch (choice) {
 			case 1:
 				UserDetailsInfo user = new UserDetailsInfo();
-				log.info("Enter the UserId");
-				String userId = scan.next();
-				user.setUserId(userId);
-
-				log.info("Enter the Email");
-				String Email = scan.next();
-				user.setEmail(Email);
-
-				log.info("Enter the Location");
-				String Location = scan.next();
-				user.setAddress(Location);
-
-				log.info("Enter the Password");
-				String password = scan.next();
-				user.setPassword(password);
-
-				log.info("Enter the Role");
-				String role = scan.next();
-				user.setUserRole(role);
-
-				log.info("Enter the UserName");
-				String uname = scan.next();
-				user.setUserName(uname);
-
+				while (true) {
+					log.info("Enter the UserId");
+					String userId = scan.next();
+					boolean res1 = validate.idValidation(userId);
+					if (res1) {
+						user.setUserId(userId);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Email(It Should contain Capital Letters" + "Special Characters,Digits)");
+					String Email = scan.next();
+					boolean res2 = validate.validateEmail(Email);
+					if (res2) {
+						user.setEmail(Email);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Location(Give it in Alphabets)");
+					String Location = scan.next();
+					boolean res3 = validate.userNameValidation(Location);
+					if (res3) {
+						user.setAddress(Location);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info(
+							"Enter the Password(Minimum 8 characters" + "Atleast 1 Capital Letter,1 Special Character");
+					String password = scan.next();
+					boolean res4 = validate.validatePassword(password);
+					if (res4) {
+						user.setPassword(password);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Role");
+					String role = scan.next();
+					boolean res5 = validate.userNameValidation(role);
+					if (res5) {
+						user.setUserRole(role);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				while (true) {
+					log.info("Enter the UserName");
+					String uname = scan.next();
+					boolean res6 = validate.userNameValidation(uname);
+					if (res6) {
+						user.setUserName(uname);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
 				boolean result = manService.addDealer(user);
 				if (result)
 					log.info("Insert Succesfully");
@@ -72,22 +117,41 @@ public class ManufacturerController {
 				break;
 			case 2:
 				UserDetailsInfo user1 = new UserDetailsInfo();
+
 				log.info("Enter the User_ID You want to Update");
+				scan = validate.integerValidation();
 				String id = scan.next();
-
-				log.info("Enter the Username");
-				String name = scan.next();
-				user1.setUserName(name);
-
-				log.info("Enter the Password");
-				String pass = scan.next();
-				user1.setPassword(pass);
-
-				log.info("Enter the email");
-				String emailid = scan.next();
-				user1.setEmail(emailid);
-
-				// dao.updateManufactur(id,user1);
+				while (true) {
+					log.info("Enter the Username");
+					String name = scan.next();
+					boolean re = validate.userNameValidation(name);
+					if (re) {
+						user1.setUserName(name);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				while (true) {
+					log.info("Enter the Password");
+					String pass = scan.next();
+					boolean re = validate.validatePassword(pass);
+					if (re) {
+						user1.setPassword(pass);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the email");
+					String emailid = scan.next();
+					boolean r = validate.validateEmail(emailid);
+					if (r) {
+						user1.setEmail(emailid);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
 				boolean result1 = manService.modifyDealer(id, user1);
 				if (result1)
 
@@ -97,37 +161,59 @@ public class ManufacturerController {
 				break;
 
 			case 3:
-
-				log.info("Enter the UserId(String) You want to Delete");
-				String userid = scan.next();
-				boolean res=manService.removeDealer(userid);
-				if(res)
-				log.info("UserId is deleted Succesfully");
+				boolean res1;
+				while (true) {
+					log.info("Enter the UserId(String) You want to Delete");
+					String userid = scan.next();
+					boolean res = validate.idValidation(userid);
+					if (res) {
+						res1 = manService.removeDealer(userid);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				if (res1)
+					log.info("UserId is deleted Succesfully");
 				else
 					log.info("UserId  Not Found");
 				break;
 
 			case 4:
-				log.info("Enter which role(Users) you want to see");
-				String rol = scan.next();
-				List<String> li = dao.viewAllDealers(rol);
-
-				log.info(li);
+				while (true) {
+					log.info("Enter which role(Users) you want to see");
+					String rol = scan.next();
+					boolean result2 = validate.userNameValidation(rol);
+					if (result2) {
+						List<String> li = dao.viewAllDealers(rol);
+						log.info(li);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
 				break;
 			case 5:
 				ProductDetailsInfo product = new ProductDetailsInfo();
 				log.info("Enter the ProductId");
+				scan = validate.integerValidation();
 				int pId = scan.nextInt();
 				product.setProduct(pId);
-				log.info("Enter the Brand");
-				String brand = scan.next();
-				product.setProductName(brand);
-
+				while (true) {
+					log.info("Enter the Brand");
+					String brand = scan.next();
+					boolean b = validate.userNameValidation(brand);
+					if (b) {
+						product.setProductName(brand);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
 				log.info("Enter the Price");
 				double d = scan.nextDouble();
 				product.setPrice(d);
 
 				log.info("Enter the Stocks");
+				scan = validate.integerValidation();
 				int s = scan.nextInt();
 				product.setStocks(s);
 
@@ -164,7 +250,9 @@ public class ManufacturerController {
 				break;
 
 			case 7:
+
 				log.info("Enter the ProductId You want to Delete");
+				scan = validate.integerValidation();
 				int pid1 = scan.nextInt();
 				boolean result4 = manService.removeProduct(pid1);
 				if (result4)
@@ -172,6 +260,7 @@ public class ManufacturerController {
 				else
 					log.info("UserID Not Found");
 				break;
+
 
 			case 8:
 				List<String> n = manService.viewAllProducts();

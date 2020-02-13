@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
+import com.capgemini.storesmanagementsystem.exception.UserNotFoundException;
 import com.capgemini.storesmanagementsystem.service.AdminServiceImpl;
 
 
@@ -12,6 +13,8 @@ public class MainController {
 	static Logger log = Logger.getLogger("store");
 
 	public static void main(String[] args) {
+		
+	   
 
 		AdminServiceImpl service = new AdminServiceImpl();
 		Scanner sc = new Scanner(System.in);
@@ -54,7 +57,13 @@ public class MainController {
 						log.info("successFully Login");
 						break;
 					}else {
-						log.info("invalid");
+						try{
+							throw new UserNotFoundException("User Not Found");
+						}
+						catch(Exception exp){
+							log.info(exp);
+						}
+					   
 					}
 				}
 			}
@@ -81,7 +90,7 @@ public class MainController {
 
 		log.trace("ThankYou for using our Services!!!");
 		sc.close();
-
+		
 	}
 }
 

@@ -14,12 +14,11 @@ import com.capgemini.storesmanagementsystem.validation.Validation;
 public class AdminController {
 	static AdminService adminService = new AdminServiceImpl();
 	AdminDaoImpl dao = new AdminDaoImpl();
+
 	static Logger log = Logger.getLogger("store");
 	static Scanner scan = new Scanner(System.in);
 
-	static Validation vali = new Validation();
-
-
+	static Validation validate = new Validation();
 
 	void adminTask() {
 		int choice = 0;
@@ -42,55 +41,127 @@ public class AdminController {
 			case 1:
 
 				UserDetailsInfo user = new UserDetailsInfo();
-				log.info("Enter the UserId");
-				String userId = scan.next();
-				user.setUserId(userId);
-
-				log.info("Enter the Email");
-				String Email = scan.next();
-				user.setEmail(Email);
-
-				log.info("Enter the Address");
-				String Location = scan.next();
-				user.setAddress(Location);
-
-				log.info("Enter the Password");
-				String password = scan.next();
-				user.setPassword(password);
-
-				log.info("Enter the Role");
-				String role = scan.next();
-				user.setUserRole(role);;
-
-				log.info("Enter the UserName");
-				String uname = scan.next();
-				user.setUserName(uname);
-
-				// dao.addManufactur(user);
+				while (true) {
+					log.info("Enter the UserId");
+					String userId = scan.next();
+					boolean res1 = validate.idValidation(userId);
+					if (res1) {
+						user.setUserId(userId);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the UserName");
+					String uname = scan.next();
+					boolean res6 = validate.userNameValidation(uname);
+					if (res6) {
+						user.setUserName(uname);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				
+				while (true) {
+					log.info("Enter the Email(It Should contain Capital Letters" + "Special Characters,Digits)");
+					String Email = scan.next();
+					boolean res2 = validate.validateEmail(Email);
+					if (res2) {
+						user.setEmail(Email);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info(
+							"Enter the Password(Minimum 8 characters" + "Atleast 1 Capital Letter,1 Special Character");
+					String password = scan.next();
+					boolean res4 = validate.validatePassword(password);
+					if (res4) {
+						user.setPassword(password);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				
+				while (true) {
+					log.info("Enter the Location(Give it in Alphabets)");
+					String Location = scan.next();
+					boolean res3 = validate.userNameValidation(Location);
+					if (res3) {
+						user.setAddress(Location);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Role");
+					String role = scan.next();
+					boolean res5 = validate.userNameValidation(role);
+					if (res5) {
+						user.setUserRole(role);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				
 				boolean u = adminService.addManufacturer(user);
 				if (u)
-					log.info("Data Inserted Succesfully");
+					log.info("Insert Succesfully");
+				else
+					log.info("Insertion Failed");
 				break;
 
 			case 2:
 				UserDetailsInfo user1 = new UserDetailsInfo();
-				log.info("Enter the User_ID You want to Update");
-				String id = scan.next();
+				String userId = null;
+				while (true) {
+					log.info("Enter the UserID You want to Update");
+					userId = scan.next();
+					boolean res7 = validate.idValidation(userId);
+					if (res7) {
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Username");
+					String name = scan.next();
+					boolean res8 = validate.userNameValidation(name);
+					if (res8) {
 
-				log.info("Enter the Username");
-				String name = scan.next();
-				user1.setUserName(name);
-
-				log.info("Enter the Password");
-				String pass = scan.next();
-				user1.setPassword(pass);
-
-				log.info("Enter the email");
-				String emailid = scan.next();
-				user1.setEmail(emailid);
-
-				// dao.updateManufactur(id,user1);
-				boolean res = adminService.updateManufacturer(id, user1);
+						user1.setUserName(name);
+						break;
+					} else {
+						log.info("Invalid !! Try Again");
+					}
+				}
+				while (true) {
+					log.info("Enter the Password");
+					String pass = scan.next();
+					boolean res9 = validate.validatePassword(pass);
+					if (res9) {
+						user1.setPassword(pass);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				while (true) {
+					log.info("Enter the email");
+					String emailid = scan.next();
+					boolean result = validate.validateEmail(emailid);
+					if (result) {
+						user1.setEmail(emailid);
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+				boolean res = adminService.updateManufacturer(userId, user1);
 				if (res)
 
 					log.info("Record has been updated Successfully!!!");
@@ -99,9 +170,17 @@ public class AdminController {
 				break;
 
 			case 3:
-				log.info("Enter the UserId(String) You want to Delete");
-				String userid = scan.next();
-				
+				String userid = null;
+				while (true) {
+					log.info("Enter the UserId(String) You want to Delete");
+					userid = scan.next();
+					boolean result3 = validate.idValidation(userid);
+					if (result3) {
+						break;
+					} else
+						log.info("Invalid !! Try Again");
+				}
+
 				boolean d = adminService.deleteManufacturer(userid);
 				if (d)
 					log.info("User_Id is deleted Succesfully");
@@ -125,10 +204,11 @@ public class AdminController {
 		} while (choice != 5);
 	}
 
-	
-	
-	
 }
+
+
+
+
 	 
 	
 
